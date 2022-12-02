@@ -1,0 +1,12 @@
+name: CashShop
+main: com.github.nicks.CashShop
+author: nicks
+
+version: 1.0
+api-version: 1.19
+
+commands:
+  캐시:
+    description: 메인 캐시 명령어
+    usage: </command>
+    aliases: [cash, 보유캐시]

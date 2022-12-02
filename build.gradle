@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+group 'com.github.nicks'
+version 'v0.1'
+
+repositories {
+    mavenCentral()
+    maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/public/") } // SPIGOT API
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT' // SPIGOT API
+}
+
+jar {
+    destinationDirectory.set(file('C:\\Users\\Yangd\\대영\\마인크래프트\\서버\\마인크래프트\\plugins')) // Build Section
+}
