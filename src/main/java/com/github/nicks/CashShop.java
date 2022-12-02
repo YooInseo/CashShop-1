@@ -1,6 +1,7 @@
 package com.github.nicks;
 
 import com.github.nicks.command.CashCmd;
+import com.github.nicks.command.tabcomplete.CashTabComplete;
 import com.github.nicks.event.PlayerJoinListener;
 import com.github.nicks.utils.ConfigUtils;
 import org.bukkit.Bukkit;
@@ -26,6 +27,7 @@ public class CashShop extends JavaPlugin {
      */
     public void init() {
         Bukkit.getPluginCommand("캐시").setExecutor(new CashCmd());
+        Bukkit.getPluginCommand("캐시").setTabCompleter(new CashTabComplete());
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), this);
     }
 
