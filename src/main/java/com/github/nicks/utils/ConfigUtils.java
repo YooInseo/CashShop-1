@@ -1,7 +1,22 @@
 package com.github.nicks.utils;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -10,6 +25,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @SuppressWarnings("all")
 public class ConfigUtils {
@@ -187,7 +204,7 @@ public class ConfigUtils {
 
 
     /**
-     * Float형 값을 불러올 때
+     * Float형 값을 불러옵니다.
      * @param path 경로
      * @return
      */
@@ -208,7 +225,7 @@ public class ConfigUtils {
 
 
     /**
-     * String형 값을 불러올 때
+     * String형 값을 불러옵니다.
      * @param path 경로
      * @return
      */
@@ -218,7 +235,7 @@ public class ConfigUtils {
 
 
     /**
-     * Integer형 값을 불러올 때
+     * Integer형 값을 불러옵니다.
      * @param path 경로
      * @return
      */
@@ -228,7 +245,7 @@ public class ConfigUtils {
 
 
     /**
-     * Boolean형 값을 불러올 때
+     * Boolean형 값을 불러옵니다.
      * @param path 경로
      * @return
      */
@@ -238,7 +255,7 @@ public class ConfigUtils {
 
 
     /**
-     * Long형 값을 불러올 때
+     * Long형 값을 불러옵니다.
      * @param path 경로
      * @return
      */
@@ -248,11 +265,253 @@ public class ConfigUtils {
 
 
     /**
-     * Long형 값을 불러올 때
+     * Long형 값을 불러옵니다.
      * @param path 경로
      * @return
      */
     public long getLong(String path) {
         return getConfig().getLong(path);
+    }
+
+
+    /**
+     * 해당 폴더에 존재하는 파일의 목록을 불러옵니다.
+     * @return
+     */
+    public File[] getFileList() {
+        this.file = new File(plugin.getDataFolder(), name);
+        return this.file.listFiles();
+    }
+
+
+    /**
+     * 인벤토리를 저장합니다.
+     * @param path
+     * @param inv
+     */
+    public void setInventory(String path, Inventory inv) {
+        for (HumanEntity viewers : inv.getViewers()) {
+            InventoryView OpenInv = viewers.getOpenInventory();
+            if (OpenInv.getTopInventory().equals(inv) && !inv.getType().equals(InventoryType.CRAFTING)) {
+                getConfig().set(path + ".inv.title", OpenInv.getTitle());
+                getConfig().set(path + ".inv.size", inv.getSize());
+
+                List<ItemStack> itemStacks = new ArrayList<>();
+
+                for (int i = 0; i < inv.getSize(); i++) {
+                    ItemStack item = inv.getItem(i);
+                    if (item != null) {
+                        if (getConfig().get(path + ".inv.items." + i + ".data") != null) {
+                            ConfigurationSection data = getConfig().getConfigurationSection(path + ".inv.items." + i + ".data");
+                            if (data != null) {
+                                for (String key : data.getKeys(false)) {
+                                    ItemMeta meta = item.getItemMeta();
+                                    PersistentDataContainer pdc = meta.getPersistentDataContainer();
+                                    NamespacedKey namespacedKey = new NamespacedKey(plugin, key);
+
+                                    if (pdc.has(namespacedKey, PersistentDataType.LONG)) {
+                                        pdc.set(namespacedKey, PersistentDataType.LONG, data.getLong(key));
+                                        item.setItemMeta(meta);
+                                        itemStacks.add(item);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                ConfigurationSection newSection = getConfig().createSection(path + ".inv.items");
+
+                List<ItemStack> items = new ArrayList<>();
+
+                for (int i = 0; i < inv.getSize(); i++) {
+                    ItemStack item = inv.getItem(i);
+
+                    if (item != null) {
+                        items.add(item);
+                        setItemStack(path, item, i, i);
+                    }
+                }
+            }
+        }
+        this.saveConfig();
+    }
+
+
+    /**
+     * 아이템 저장
+     * @param path
+     * @param item
+     * @param i
+     * @param index
+     */
+    public void setItemStack(String path, ItemStack item, int i, int index) {
+        ConfigurationSection section = getConfig().createSection(path + ".inv.items." + index);
+        section.set("slot", i);
+        setItemStack(path, item, section);
+    }
+
+
+    /**
+     * 아이템 저장
+     * @param path
+     * @param value
+     * @param section
+     */
+    public void setItemStack(String path, ItemStack value, ConfigurationSection section) {
+        Objects.requireNonNull(section, "section 변수가 없습니다! 확인해 주세요! 에러가 발생된 메소드 : #setItemStack, section=?");
+
+        section.set("Material", value.getType().name());
+        section.set("Amount", value.getAmount());
+        section.set("Durability", value.getDurability());
+
+
+        if (value != null) {
+            ItemMeta meta = value.getItemMeta();
+            PersistentDataContainer data = meta.getPersistentDataContainer();
+            if (data != null) {
+                for (NamespacedKey key : data.getKeys()) {
+                    long test = data.get(key, PersistentDataType.LONG);
+                    section.set("data." + key.getKey(), test);
+                }
+            }
+        }
+
+
+        if (!value.getType().equals(Material.ENCHANTED_BOOK)) {
+            if (value.hasItemMeta()) {
+                ItemMeta meta = value.getItemMeta();
+                assert meta != null;
+                if (meta.hasDisplayName())
+                    section.set("Meta.Display", meta.getDisplayName());
+
+                if (meta.hasCustomModelData())
+                    section.set("Meta.CustomModelData", meta.getCustomModelData());
+
+                if (meta.hasLore()) {
+                    List<String> lore = meta.getLore();
+                    section.set("Meta.Lore", lore);
+
+                }
+                Map<Enchantment, Integer> enchants = meta.getEnchants();
+
+                for (Enchantment enchantment : value.getEnchantments().keySet()) {
+                    int level = enchants.get(enchantment);
+                    section.set("Enchant." + enchantment.getName(), level);
+                }
+            }
+        } else {
+
+
+            EnchantmentStorageMeta enchantMeta = (EnchantmentStorageMeta) value.getItemMeta();
+
+            Map<Enchantment, Integer> enchants = enchantMeta.getStoredEnchants();
+
+            if (enchants != null) {
+                for (Enchantment enchantment : enchants.keySet()) {
+                    int level = enchants.get(enchantment);
+                    section.set("Enchant." + enchantment.getName(), level);
+                }
+            }
+        }
+        this.saveConfig();
+    }
+
+    public Inventory getInventory(String path) {
+
+        if (getConfig().get(path + ".inv.size") != null && getConfig().get(path + ".inv.title") != null) {
+
+            Inventory inv = Bukkit.createInventory(null, (Integer) getConfig().get(path + ".inv.size"), (String) getConfig().get(path + ".inv.title"));
+
+            ConfigurationSection section = getConfig().getConfigurationSection(path + ".inv.items");
+            ConfigurationSection metaData = section.getConfigurationSection("Meta");
+
+            for (int i = 0; i < inv.getSize(); i++) {
+                String materialName = section.getString(i + ".Material");
+
+                String displayName = section.getString(i + ".Meta.Display");
+
+                List<String> lore = section.getStringList(i + ".Meta.Lore");
+
+                if (materialName != null) {
+
+                    Material material = Material.valueOf(materialName);
+                    if (material.equals(Material.ENCHANTED_BOOK)) {
+                        int slot = section.getInt(i + ".slot");
+                        int amount = section.getInt(i + ".Amount");
+
+                        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, amount);
+                        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
+
+                        if (displayName != null) {
+                            meta.setDisplayName(displayName);
+                        } else if (lore != null) {
+                            meta.setLore(lore);
+                        }
+
+                        int durability = section.getInt(i + ".Durability");
+
+                        section = section.getConfigurationSection(i + ".Enchant");
+
+                        if (section != null) {
+                            for (String key : section.getKeys(false)) {
+                                Enchantment enchantment = Enchantment.getByName(key);
+                                meta.addStoredEnchant(enchantment, section.getInt(key), false);
+                            }
+                        }
+
+                        ConfigurationSection data = section.getConfigurationSection(i + ".data");
+                        if (data != null) {
+                            PersistentDataContainer pdc = meta.getPersistentDataContainer();
+                            for (String key : data.getKeys(false)) {
+                                long value = data.getLong(key);
+                                NamespacedKey name = new NamespacedKey(plugin, key);
+                                pdc.set(name, PersistentDataType.LONG, value);
+                            }
+                        }
+
+                        item.setItemMeta(meta);
+                        inv.setItem(slot, item);
+                    } else {
+                        int slot = section.getInt(i + ".slot");
+                        int amount = section.getInt(i + ".Amount");
+
+                        ItemStack item = new ItemStack(material, amount);
+                        ItemMeta meta = item.getItemMeta();
+
+                        if (displayName != null) {
+                            meta.setDisplayName(displayName);
+                        }
+                        meta.setLore(lore);
+                        int durability = section.getInt(i + ".Durability");
+
+                        ConfigurationSection data = section.getConfigurationSection(i + ".data");
+                        if (data != null) {
+                            PersistentDataContainer pdc = meta.getPersistentDataContainer();
+                            for (String key : data.getKeys(false)) {
+                                long value = data.getLong(key);
+                                NamespacedKey name = new NamespacedKey(plugin, key);
+                                pdc.set(name, PersistentDataType.LONG, value);
+                            }
+                        }
+                        item.setItemMeta(meta);
+
+                        section = section.getConfigurationSection(i + ".Enchant");
+
+                        if (section != null) {
+                            for (String key : section.getKeys(false)) {
+                                Enchantment enchantment = Enchantment.getByName(key);
+                                item.addUnsafeEnchantment(enchantment, section.getInt(key));
+                            }
+                        }
+
+
+                        inv.setItem(slot, item);
+                    }
+                    section = getConfig().getConfigurationSection(path + ".inv.items");
+                }
+            }
+            return inv;
+        }
+        return null;
     }
 }

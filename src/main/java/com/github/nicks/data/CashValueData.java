@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import static com.github.nicks.CashShop.plugin;
 
 
+@SuppressWarnings("all")
 public class CashValueData {
 
     private ConfigUtils config;

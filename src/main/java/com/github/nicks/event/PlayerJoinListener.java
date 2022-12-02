@@ -8,6 +8,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import static com.github.nicks.CashShop.plugin;
 
+
+@SuppressWarnings("all")
 public class PlayerJoinListener implements Listener {
 
     private ConfigUtils config;
