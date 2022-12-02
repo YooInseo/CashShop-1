@@ -26,49 +26,51 @@ public class CashCmd implements CommandExecutor {
                 return true;
             }
 
-            switch (args[0]) {
+            if (player.isOp()) {
+                switch (args[0]) {
 
-                case "지급" -> {
-                    target = player.getServer().getPlayer(args[1]);
-                    amount = Double.parseDouble(args[2]);
-                    cashValueData.depositCash(target, amount);
-                    return true;
-                }
-
-                case "차감" -> {
-                    target = player.getServer().getPlayer(args[1]);
-                    amount = Double.parseDouble(args[2]);
-                    cashValueData.withdrawCash(target, amount);
-                    return true;
-                }
-
-                case "설정" -> {
-                    target = player.getServer().getPlayer(args[1]);
-                    amount = Double.parseDouble(args[2]);
-                    cashValueData.setCash(target, amount);
-                    player.sendMessage(amount + "설정 완료");
-                    return true;
-                }
-
-                case "확인" -> {
-                    target = player.getServer().getPlayer(args[1]);
-                    player.sendMessage("" + cashValueData.getCash(target));
-                    return true;
-                }
-
-                case "모두지급" -> {
-                    amount = Double.parseDouble(args[1]);
-                    for (Player targetPlayer : player.getServer().getOnlinePlayers()) {
-                        cashValueData.depositCash(targetPlayer, amount);
+                    case "지급" -> {
+                        target = player.getServer().getPlayer(args[1]);
+                        amount = Double.parseDouble(args[2]);
+                        cashValueData.depositCash(target, amount);
+                        return true;
                     }
-                    return true;
-                }
 
-                case "초기화" -> {
-                    target = player.getServer().getPlayer(args[1]);
-                    cashValueData.setCash(target, 0.0);
-                    player.sendMessage("초기화 완료");
-                    return true;
+                    case "차감" -> {
+                        target = player.getServer().getPlayer(args[1]);
+                        amount = Double.parseDouble(args[2]);
+                        cashValueData.withdrawCash(target, amount);
+                        return true;
+                    }
+
+                    case "설정" -> {
+                        target = player.getServer().getPlayer(args[1]);
+                        amount = Double.parseDouble(args[2]);
+                        cashValueData.setCash(target, amount);
+                        player.sendMessage(amount + "설정 완료");
+                        return true;
+                    }
+
+                    case "확인" -> {
+                        target = player.getServer().getPlayer(args[1]);
+                        player.sendMessage("" + cashValueData.getCash(target));
+                        return true;
+                    }
+
+                    case "모두지급" -> {
+                        amount = Double.parseDouble(args[1]);
+                        for (Player targetPlayer : player.getServer().getOnlinePlayers()) {
+                            cashValueData.depositCash(targetPlayer, amount);
+                        }
+                        return true;
+                    }
+
+                    case "초기화" -> {
+                        target = player.getServer().getPlayer(args[1]);
+                        cashValueData.setCash(target, 0.0);
+                        player.sendMessage("초기화 완료");
+                        return true;
+                    }
                 }
             }
         }

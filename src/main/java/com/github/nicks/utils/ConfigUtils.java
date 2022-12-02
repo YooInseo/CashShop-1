@@ -416,6 +416,12 @@ public class ConfigUtils {
         this.saveConfig();
     }
 
+
+    /**
+     * 인벤토리를 불러옵니다.
+     * @param path
+     * @return
+     */
     public Inventory getInventory(String path) {
 
         if (getConfig().get(path + ".inv.size") != null && getConfig().get(path + ".inv.title") != null) {

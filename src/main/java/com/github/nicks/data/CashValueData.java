@@ -13,7 +13,6 @@ public class CashValueData {
     private Player player;
 
 
-
     /**
      * 플레이어에게 캐시를 지급합니다.
      *
@@ -64,5 +63,4 @@ public class CashValueData {
         config = new ConfigUtils("data/" + this.player.getUniqueId(), plugin);
         return config.getConfig().getDouble("playerdata.cash");
     }
-
 }
