@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=wave&color=auto&height=300&section=header&text=캐시%20+ 상점&fontSize=90)
+![header](https://capsule-render.vercel.app/api?type=wave&color=auto&height=300&section=header&text=capsule%20render&fontSize=90)
 
 <p align='center'> 마인크래프트 | 캐시 + 캐시상점 플러그인  </p>
 <p align='center'>
