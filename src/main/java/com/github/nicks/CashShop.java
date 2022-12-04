@@ -45,6 +45,7 @@ public class CashShop extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new InventoryCloseListener(), this);
         Bukkit.getPluginManager().registerEvents(new InventoryClickListener(), this);
         Bukkit.getPluginManager().registerEvents(new AsyncPlayerChatListener(), this);
+        Bukkit.getPluginManager().registerEvents(new CashShopListener(), this);
 
         // 캐시상점 인벤토리를 불러옵니다.
         ConfigUtils configFolder = new ConfigUtils("shop/", this);
