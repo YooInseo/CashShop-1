@@ -3,10 +3,13 @@
 <p align='center'> 마인크래프트 | 캐시 + 캐시상점 플러그인  </p>
 <p align='center'>
   <a href="https://github.com/idkNicks">
-    <img src="https://img.shields.io/badge/IDEA%20ISSUE%20-%23F7DF1E.svg?&style=for-the-badge&&logoColor=white"/>
+    <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white">
   </a>
-  <a href="#demo">
-    <img src="https://img.shields.io/badge/DEMO%20-%234FC08D.svg?&style=for-the-badge&&logoColor=white"/>
+  <a href="https://discord.com/users/992342653255557230">
+    <img src="https://img.shields.io/badge/-Contact-ed8a6c?style=for-the-badge">
+  </a>
+  <a href="https://discord.gg/7eV6KxPdcQ">
+    <img src="https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white">
   </a>
 </p>
 # 💸 캐시 + 캐시상점 API 💸
