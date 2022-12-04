@@ -2,7 +2,10 @@ package com.github.nicks.event;
 
 import com.github.nicks.data.CashAPI;
 import com.github.nicks.data.GuiType;
+import com.github.nicks.events.CashShopPurchaseEvent;
+import com.github.nicks.events.CashShopSellEvent;
 import com.github.nicks.utils.ConfigUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -72,6 +75,11 @@ public class InventoryClickListener implements Listener {
                             System.out.println("돈이 부족합니다.");
                         } else {
                             if (!isInventoryFull(player)) {
+
+                                CashShopPurchaseEvent cashShopPurchaseEvent = new CashShopPurchaseEvent(player);
+                                cashShopPurchaseEvent.setPurchaseType(CashShopPurchaseEvent.PurchaseType.SINGLE);
+                                Bukkit.getPluginManager().callEvent(cashShopPurchaseEvent);
+
                                 player.getInventory().addItem(event.getCurrentItem()); // 인벤토리에 아이템 지급
                                 cashAPI.withdrawCash(player, config.getDouble("cashshop.inv.items." + event.getSlot() + ".Price.buy")); // 캐시 차감
                             } else {
@@ -82,6 +90,11 @@ public class InventoryClickListener implements Listener {
                         // 캐시상점 1개 판매
                     } else if (event.getClick() == ClickType.RIGHT) {
                         if (Arrays.asList(player.getInventory().getContents()).contains(event.getCurrentItem())) { // 플레이어 인벤토리에 아이템이 있는지 체크
+
+                            CashShopSellEvent cashShopSellEvent = new CashShopSellEvent(player);
+                            cashShopSellEvent.setSellType(CashShopSellEvent.SellType.SINGLE);
+                            Bukkit.getPluginManager().callEvent(cashShopSellEvent);
+
                             player.getInventory().removeItem(event.getCurrentItem()); // 아이템 제거
                             cashAPI.depositCash(player, config.getDouble("cashshop.inv.items." + event.getSlot() + ".Price.sell")); // 캐시 추가
                             System.out.println(event.getSlot() + "의 판매 가격은 " + config.getDouble("cashshop.inv.items." + event.getSlot() + ".Price.sell") + "입니다.");
@@ -97,6 +110,11 @@ public class InventoryClickListener implements Listener {
                         } else {
                             if (!isInventoryFull(player)) {
                                 player.getInventory().addItem(new ItemStack(event.getCurrentItem().getType(), 64)); // 인벤토리에 아이템 지급
+
+                                CashShopPurchaseEvent cashShopPurchaseEvent = new CashShopPurchaseEvent(player);
+                                cashShopPurchaseEvent.setPurchaseType(CashShopPurchaseEvent.PurchaseType.SET);
+                                Bukkit.getPluginManager().callEvent(cashShopPurchaseEvent);
+
                                 cashAPI.withdrawCash(player, config.getDouble("cashshop.inv.items." + event.getSlot() + ".Price.buy") * 64); // 캐시 차감
                             } else {
                                 player.sendMessage("인벤토리가 가득차서 구매가 불가능합니다!");
@@ -107,6 +125,11 @@ public class InventoryClickListener implements Listener {
                     // 캐시상점 64개 판매
                     if (event.getClick() == ClickType.SHIFT_RIGHT) {
                         if (Arrays.asList(player.getInventory().getContents()).contains(new ItemStack(event.getCurrentItem().getType(), 64))) { // 플레이어 인벤토리에 아이템이 있는지 체크
+
+                            CashShopSellEvent cashShopSellEvent = new CashShopSellEvent(player);
+                            cashShopSellEvent.setSellType(CashShopSellEvent.SellType.SET);
+                            Bukkit.getPluginManager().callEvent(cashShopSellEvent);
+
                             player.getInventory().removeItem(new ItemStack(event.getCurrentItem().getType(), 64)); // 아이템 제거
                             cashAPI.depositCash(player, config.getDouble("cashshop.inv.items." + event.getSlot() + ".Price.sell") * 64); // 캐시 추가
                             System.out.println(event.getSlot() + "의 판매 가격은 " + config.getDouble("cashshop.inv.items." + event.getSlot() + ".Price.sell") * 64 + "입니다.");
