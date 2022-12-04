@@ -24,6 +24,7 @@ public class Example() {
 ```java
 public class Example implements Listener {
 
+
   @EventHandler
   public void purchaseEvent(CashShopPurchaseEvent event) {
   
