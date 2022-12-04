@@ -6,8 +6,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static com.github.nicks.CashShop.plugin;
-import static com.github.nicks.data.CashShopMapManager.shopMap;
-import static com.github.nicks.data.CashShopMapManager.typeMap;
+import static com.github.nicks.data.CashShopMapManager.*;
 
 public class CashShopData {
 
@@ -55,7 +54,7 @@ public class CashShopData {
         if (player.isOp()) {
             config = new ConfigUtils("shop/" + name, plugin);
             player.openInventory(shopMap.get(name));
-            typeMap.put(player, GuiType.EDIT);
+            guiType.put(player, GuiType.EDIT);
         }
     }
 
@@ -68,6 +67,6 @@ public class CashShopData {
     public void openCashShop(@NotNull Player player, String name) {
         config = new ConfigUtils("shop/" + name, plugin);
         player.openInventory(shopMap.get(name));
-        typeMap.put(player, GuiType.OPEN);
+        guiType.put(player, GuiType.OPEN);
     }
 }
