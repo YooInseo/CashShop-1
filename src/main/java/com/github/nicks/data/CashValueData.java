@@ -2,6 +2,7 @@ package com.github.nicks.data;
 
 import com.github.nicks.utils.ConfigUtils;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import static com.github.nicks.CashShop.plugin;
 
@@ -19,7 +20,7 @@ public class CashValueData {
      * @param player
      * @return amount 지급할 캐시
      */
-    public void depositCash(Player player, Double amount) {
+    public void depositCash(@NotNull Player player, Double amount) {
         config = new ConfigUtils("data/" + player.getUniqueId(), plugin);
         config.setDouble("playerdata.cash", config.getDouble("playerdata.cash") + amount);
         player.sendMessage(amount + "지급 완료");
@@ -33,7 +34,7 @@ public class CashValueData {
      * @return amount 차감할 캐시
      */
 
-    public void withdrawCash(Player player, Double amount) {
+    public void withdrawCash(@NotNull Player player, Double amount) {
         config = new ConfigUtils("data/" + player.getUniqueId(), plugin);
         config.setDouble("playerdata.cash", config.getDouble("playerdata.cash") - amount);
         player.sendMessage(amount + "차감 완료");
@@ -46,7 +47,7 @@ public class CashValueData {
      * @param player
      * @param amount 설정할 캐시
      */
-    public void setCash(Player player, Double amount) {
+    public void setCash(@NotNull Player player, Double amount) {
         config = new ConfigUtils("data/" + player.getUniqueId(), plugin);
         config.setDouble("playerdata.cash", amount);
     }
