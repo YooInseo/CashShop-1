@@ -9,12 +9,12 @@
 ## 💵 캐시 활용하기 💵
 ```java
 public class Example() {
-  CashValueData cashValueData = new CashValueData();
+  CashAPI cashAPI = new CashAPI();
 
-  cashValueData.depositCash(target, amount);
-  cashValueData.withdrawCash(target, amount);
-  cashValueData.setCash(target, amount);
-  cashValueData.getCash(target)
+  cashAPI.depositCash(target, amount);
+  cashAPI.withdrawCash(target, amount);
+  cashAPI.setCash(target, amount);
+  cashAPI.getCash(target)
 }
 
 ```
