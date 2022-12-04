@@ -13,10 +13,13 @@ public class Example() {
 
   CashAPI cashAPI = new CashAPI();
 
-  cashAPI.depositCash(target, amount);
-  cashAPI.withdrawCash(target, amount);
-  cashAPI.setCash(target, amount);
-  cashAPI.getCash(target)
+  cashAPI.depositCash(target, amount); // 캐시 지급
+  
+  cashAPI.withdrawCash(target, amount); // 캐시 차감
+  
+  cashAPI.setCash(target, amount); // 캐시 설정
+  
+  cashAPI.getCash(target) // 캐시 가져오기
 }
 ```
 
