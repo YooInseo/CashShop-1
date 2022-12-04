@@ -9,6 +9,6 @@ import java.util.Map;
 public class CashShopMapManager {
 
     public static Map<String, Inventory> shopMap = new HashMap<>();
-    public static Map<Player, GuiType> typeMap = new HashMap<>();
+    public static Map<Player, GuiType> guiType = new HashMap<>();
 
 }
