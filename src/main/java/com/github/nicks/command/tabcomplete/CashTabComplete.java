@@ -17,6 +17,7 @@ import java.util.List;
 @SuppressWarnings("all")
 public class CashTabComplete implements TabCompleter {
 
+
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
