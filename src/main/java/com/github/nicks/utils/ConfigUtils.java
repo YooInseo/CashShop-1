@@ -10,7 +10,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -363,6 +362,8 @@ public class ConfigUtils {
         section.set("Material", value.getType().name());
         section.set("Amount", value.getAmount());
         section.set("Durability", value.getDurability());
+        section.set("Price.buy", -1);
+        section.set("Price.sell", -1);
 
 
         if (value != null) {
@@ -390,7 +391,6 @@ public class ConfigUtils {
                 if (meta.hasLore()) {
                     List<String> lore = meta.getLore();
                     section.set("Meta.Lore", lore);
-
                 }
                 Map<Enchantment, Integer> enchants = meta.getEnchants();
 
@@ -400,8 +400,6 @@ public class ConfigUtils {
                 }
             }
         } else {
-
-
             EnchantmentStorageMeta enchantMeta = (EnchantmentStorageMeta) value.getItemMeta();
 
             Map<Enchantment, Integer> enchants = enchantMeta.getStoredEnchants();
