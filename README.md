@@ -38,19 +38,19 @@ public class Example implements Listener {
     }
     
     
-    @EventHandler
-    public void sellEvent(CashShopSellEvent event) {
+  @EventHandler
+  public void sellEvent(CashShopSellEvent event) {
     
-      Player player = event.getPlayer();
-      CashShopPurchaseEvent.SellType sellType = event.getSellType();
+    Player player = event.getPlayer();
+    CashShopPurchaseEvent.SellType sellType = event.getSellType();
     
-      if (SellType == CashShopSellEvent.SellType.SET) {
-          player.sendMessage("64개를 판매했습니다!");
-      }
+    if (SellType == CashShopSellEvent.SellType.SET) {
+        player.sendMessage("64개를 판매했습니다!");
+    }
     
-      if (SellType == CashShopSellEvent.SellType.SINGLE) {
-          player.sendMessage("1개를 판매했습니다!");
-      }
+    if (SellType == CashShopSellEvent.SellType.SINGLE) {
+        player.sendMessage("1개를 판매했습니다!");
+    }
 }
 ```
     
