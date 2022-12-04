@@ -2,18 +2,19 @@
 
 <p align='center'> 마인크래프트 | 캐시 + 캐시상점 플러그인  </p>
 <p align='center'>
-  <a href="https://github.com/idkNicks" target="_blank">
+  <a href="https://github.com/idkNicks">
     <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white">
   </a>
-  <a href="https://discord.com/users/992342653255557230" target="_blank">
+  <a href="https://discord.com/users/992342653255557230">
     <img src="https://img.shields.io/badge/-Contact-ed8a6c?style=for-the-badge">
   </a>
-  <a href="https://discord.gg/7eV6KxPdcQ" target="_blank">
+  <a href="https://discord.gg/7eV6KxPdcQ">
     <img src="https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white">
   </a>
 </p>
-# 💸 캐시 + 캐시상점 API 💸
 
+# 💸 캐시 + 캐시상점 API 💸
+  
 
 ## ⚙️ 개발 환경 ⚙️
 - JDK(Java Development Kit) 17
