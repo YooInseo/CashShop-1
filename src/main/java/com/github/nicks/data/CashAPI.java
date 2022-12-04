@@ -8,7 +8,7 @@ import static com.github.nicks.CashShop.plugin;
 
 
 @SuppressWarnings("all")
-public class CashValueData {
+public class CashAPI {
 
     private ConfigUtils config;
     private Player player;
