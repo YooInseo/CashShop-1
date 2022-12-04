@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import java.io.File;
 
 import static com.github.nicks.CashShop.plugin;
-import static com.github.nicks.data.CashShopMapManager.typeMap;
+import static com.github.nicks.data.CashShopMapManager.guiType;
 
 
 @SuppressWarnings("all")
@@ -28,11 +28,11 @@ public class InventoryCloseListener implements Listener {
             ConfigUtils config = new ConfigUtils("shop/" + file.getName().substring(0, file.getName().length() - 4), plugin);
 
             if (event.getView().getTitle().equals(config.getString("cashshop.inv.title"))) {
-                if (typeMap.get(player) == GuiType.EDIT) {
+                if (guiType.get(player) == GuiType.EDIT) {
                     config.setInventory("cashshop", event.getInventory());
                 }
 
-                typeMap.remove(player);
+                guiType.remove(player);
             }
         }
     }
