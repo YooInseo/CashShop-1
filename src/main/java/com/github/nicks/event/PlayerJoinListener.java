@@ -12,14 +12,12 @@ import static com.github.nicks.CashShop.plugin;
 @SuppressWarnings("all")
 public class PlayerJoinListener implements Listener {
 
-    private ConfigUtils config;
-
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        config = new ConfigUtils("data/" + player.getUniqueId(), plugin);
+        ConfigUtils config = new ConfigUtils("data/" + player.getUniqueId(), plugin);
         if(!config.isFileExist()) {
             config.setDouble("playerdata.cash", 0.0);
         }
